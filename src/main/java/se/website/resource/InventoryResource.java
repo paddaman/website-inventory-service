@@ -8,11 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.website.domain.Product;
 import se.website.service.InventoryService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,11 +42,22 @@ public class InventoryResource {
 
     @ApiOperation(value = "Get the provided product from database.", tags = "Items")
     @GetMapping(value = "/products/{id}", produces = "application/json")
-    public ResponseEntity<Product> getItem(@PathVariable int id) {
+    public ResponseEntity<Product> getItem(@PathVariable Long id) {
 
         LOGGER.info("Begin getting product from database: id {}", id);
         Product product = inventoryService.getProduct(id);
         LOGGER.info("Done getting product from database: product {}", product);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Get the provided product from database.", tags = "Items")
+    @PostMapping(value = "/products", produces = "application/json")
+    public ResponseEntity<Product> saveItem(@RequestBody @Valid Product product) {
+
+        LOGGER.info("Begin saving product in database: product {}", product);
+        product = inventoryService.saveProduct(product);
+        LOGGER.info("Done saving product in database: product {}", product);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }

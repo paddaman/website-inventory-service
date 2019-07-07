@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 
 /**
  * Created 2019-07-07 by patrikingverud
@@ -28,7 +29,9 @@ public class Product {
 
     @Id
     @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Null(message = "Id cannot be set. It will be set automatically by the in the database.")
+    private Long id;
 
     @Column(name = "name")
     private String name;

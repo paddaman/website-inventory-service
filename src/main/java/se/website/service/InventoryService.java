@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import se.website.domain.Product;
 import se.website.repository.InventoryRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,8 +25,13 @@ public class InventoryService {
         return inventoryRepository.findAll();
     }
 
-    public Product getProduct(int id) {
+    public Product getProduct(Long id) {
 
         return inventoryRepository.findById(id);
+    }
+
+    public Product saveProduct(Product product) {
+
+        return inventoryRepository.save(product);
     }
 }
